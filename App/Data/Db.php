@@ -10,9 +10,9 @@ class Db
 
     private function __construct()
     {
-        $dsn = 'mysql:host=localhost;dbname=blog';
+        $dsn = include __DIR__ . '/../../config.php';
         try {
-            $this->dbh = new \PDO($dsn, 'ioan', 'password',
+            $this->dbh = new \PDO($dsn['database']['connection'], $dsn['database']['username'], $dsn['database']['password'],
                 [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
         } catch (\PDOException $exception) {
             var_dump($exception);
