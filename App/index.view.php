@@ -33,8 +33,8 @@ namespace App;
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 offset-md-2">
-            <a href="#" class="btn btn-success">Add post</a>
+        <div class="col-lg-8 offset-lg-2">
+            <a href="/App/create.php" class="btn btn-success">Add post</a>
             <table class="table">
                 <thead>
                 <tr>
@@ -46,16 +46,18 @@ namespace App;
                 </thead>
                 <tbody>
                 <?php
+                $i = 0;
                 //var_dump($posts);
                 foreach ($posts as $post) {
                     ?>
                     <tr>
-                        <th scope="row"><?php echo $post['id'] ?></th>
-                        <td><?php echo $post['title']; ?></td>
-                        <td><a href="#">Читать</a></td>
+                        <th scope="row"><?php echo ++$i; ?></th>
+                        <td><a href="/App/read.php?id=<?php echo $post->id; ?>"><?php echo $post->title; ?></a></td>
                         <td>
-                            <a href="#" class="btn btn-warning">Edid</a>
-                            <a href="#" class="btn btn-dander">Delete</a>
+                            <a href="/App/edit.php?id=<?php echo $post->id; ?>" class="btn btn-warning">Edid</a>
+                        </td>
+                        <td>
+                            <a href="/App/delete.php?id=<?php echo $post->id; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
                 <?php } ?>

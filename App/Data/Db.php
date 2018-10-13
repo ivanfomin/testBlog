@@ -7,12 +7,12 @@ class Db
 {
     private $dbh;
     private static $connection;
-
+//comment
     private function __construct()
     {
-        $dsn = include __DIR__ . '/../../config.php';
+        $dsn = (include __DIR__ . '/../../config.php')['database'];
         try {
-            $this->dbh = new \PDO($dsn['database']['connection'], $dsn['database']['username'], $dsn['database']['password'],
+            $this->dbh = new \PDO($dsn['connection'], $dsn['username'], $dsn['password'],
                 [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
         } catch (\PDOException $exception) {
             var_dump($exception);
@@ -31,6 +31,7 @@ class Db
     public function execute(string $sql, array $data = [])
     {
         $sth = $this->dbh->prepare($sql);
+        
         $result = $sth->execute($data);
         if (false === $result) {
             var_dump($sth->errorInfo());
@@ -39,11 +40,11 @@ class Db
         return true;
     }
 
-    public function query(string $sql, array $data = [])
+    public function query(string $sql, array $data = [], $class = null )
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($data);
-        return $sth->fetchAll(\PDO::FETCH_ASSOC);
+        return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
     public function lastInsertId()
